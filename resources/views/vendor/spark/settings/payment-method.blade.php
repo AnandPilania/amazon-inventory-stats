@@ -10,16 +10,16 @@
 
         <!-- Update VAT ID -->
     @if (Spark::collectsEuropeanVat())
-        @include('spark::settings.payment-method.update-vat-id')
+        @include('spark::frontend.settings.payment-method.update-vat-id')
     @endif
 
     <!-- Update Card -->
-        @include('spark::settings.payment-method.update-payment-method-stripe')
+        @include('spark::frontend.settings.payment-method.update-payment-method-stripe')
 
         <div>
             <div v-if="billable.stripe_id">
                 <!-- Redeem Coupon -->
-                @include('spark::settings.payment-method.redeem-coupon')
+                @include('spark::frontend.settings.payment-method.redeem-coupon')
             </div>
         </div>
     </div>

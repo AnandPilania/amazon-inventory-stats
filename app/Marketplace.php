@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marketplace extends Model
 {
-    //
+
     public function user ()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('mws_auth_token');
     }
 }

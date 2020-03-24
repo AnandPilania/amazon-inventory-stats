@@ -40,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes($router);
 
+        $this->mapAmazonRoutes($router);
+
         //
     }
 
@@ -70,5 +72,17 @@ class RouteServiceProvider extends ServiceProvider
                ->middleware('api')
                ->namespace($this->namespace)
                ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Routes for the MWS related stuff
+     *
+     * @param Router $router
+     */
+    protected function mapAmazonRoutes(Router $router){
+        $router->prefix('amazon')
+            ->middleware(['web', 'hasTeam'])
+            ->namespace('App\Http\Controllers\Amazon')
+            ->group(base_path('routes/amazon.php'));
     }
 }

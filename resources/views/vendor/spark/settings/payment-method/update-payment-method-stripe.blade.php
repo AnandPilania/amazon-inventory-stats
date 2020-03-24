@@ -52,7 +52,7 @@
 
                 <!-- Billing Address Fields -->
                 @if (Spark::collectsBillingAddress())
-                    @include('spark::settings.payment-method.update-payment-method-address')
+                    @include('spark::frontend.settings.payment-method.update-payment-method-address')
                 @endif
 
                 <!-- Zip Code -->

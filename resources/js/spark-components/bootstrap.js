@@ -86,3 +86,8 @@ require('./kiosk/metrics');
 require('./kiosk/users');
 require('./kiosk/profile');
 require('./kiosk/add-discount');
+
+/**
+ *  amazon components
+ */
+require('./settings/amazon/amazon-settings');

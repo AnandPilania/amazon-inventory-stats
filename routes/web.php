@@ -11,6 +11,9 @@
 |
 */
 
+use \Illuminate\Support\Facades\Route;
+
 Route::get('/', 'WelcomeController@show');
 
 Route::get('/home', 'HomeController@show');
+

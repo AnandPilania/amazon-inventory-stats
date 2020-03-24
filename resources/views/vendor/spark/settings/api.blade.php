@@ -2,12 +2,12 @@
     <div>
         <!-- Create API Token -->
         <div>
-            @include('spark::settings.api.create-token')
+            @include('spark::frontend.settings.api.create-token')
         </div>
 
         <!-- API Tokens -->
         <div>
-            @include('spark::settings.api.tokens')
+            @include('spark::frontend.settings.api.tokens')
         </div>
     </div>
 </spark-api>
