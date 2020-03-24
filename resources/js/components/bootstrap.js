@@ -11,4 +11,5 @@
 
 require('./../spark-components/bootstrap');
 
+// require('./amazon-mws/mws-settings-form');
 require('./home');

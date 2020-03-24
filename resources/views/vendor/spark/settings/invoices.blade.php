@@ -2,12 +2,12 @@
     <div>
         <!-- Update Extra Billing Information -->
         <div v-if="billable">
-            @include('spark::frontend.settings.invoices.update-extra-billing-information')
+            @include('spark::settings.invoices.update-extra-billing-information')
         </div>
 
         <!-- Invoice List -->
         <div v-if="invoices.length > 0">
-        	@include('spark::frontend.settings.invoices.invoice-list')
+        	@include('spark::settings.invoices.invoice-list')
         </div>
     </div>
 </spark-invoices>

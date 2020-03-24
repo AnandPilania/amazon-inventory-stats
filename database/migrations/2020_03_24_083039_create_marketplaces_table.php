@@ -17,7 +17,7 @@ class CreateMarketplacesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('marketplace_name');
-            $table->string('marketplace_id');
+            $table->string('amazon_marketplace_id');
             $table->string('domain');
         });
     }

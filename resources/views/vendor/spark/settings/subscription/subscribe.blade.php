@@ -3,7 +3,7 @@
 
     <div>
         <!-- Common Subscribe Form Contents -->
-    @include('spark::frontend.settings.subscription.subscribe-common')
+    @include('spark::settings.subscription.subscribe-common')
 
     <!-- Billing Information -->
         <div class="card card-default" v-show="selectedPlan">
@@ -52,7 +52,7 @@
 
                     <!-- Billing Address Fields -->
                 @if (Spark::collectsBillingAddress())
-                    @include('spark::frontend.settings.subscription.subscribe-address')
+                    @include('spark::settings.subscription.subscribe-address')
                 @endif
 
                 <!-- ZIP Code -->

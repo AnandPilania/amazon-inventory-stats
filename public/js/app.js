@@ -72713,7 +72713,8 @@ var app = new Vue({
  | application. This is also a convenient spot for you to load all of
  | your components that you write while building your applications.
  */
-__webpack_require__(/*! ./../spark-components/bootstrap */ "./resources/js/spark-components/bootstrap.js");
+__webpack_require__(/*! ./../spark-components/bootstrap */ "./resources/js/spark-components/bootstrap.js"); // require('./amazon-mws/mws-settings-form');
+
 
 __webpack_require__(/*! ./home */ "./resources/js/components/home.js");
 
@@ -72886,6 +72887,12 @@ __webpack_require__(/*! ./kiosk/users */ "./resources/js/spark-components/kiosk/
 __webpack_require__(/*! ./kiosk/profile */ "./resources/js/spark-components/kiosk/profile.js");
 
 __webpack_require__(/*! ./kiosk/add-discount */ "./resources/js/spark-components/kiosk/add-discount.js");
+/**
+ *  amazon components
+ */
+
+
+__webpack_require__(/*! ./settings/amazon/amazon-settings */ "./resources/js/spark-components/settings/amazon/amazon-settings.js");
 
 /***/ }),
 
@@ -73005,6 +73012,35 @@ var base = __webpack_require__(/*! notifications/notifications */ "./spark/resou
 
 Vue.component('spark-notifications', {
   mixins: [base]
+});
+
+/***/ }),
+
+/***/ "./resources/js/spark-components/settings/amazon/amazon-settings.js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/spark-components/settings/amazon/amazon-settings.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+Vue.component('mws-settings-form', {
+  props: ['team'],
+  mounted: function mounted() {
+    var _this = this;
+
+    console.log('Hello testing', this.marketplaces);
+    axios.get('/amazon/marketplaces').then(function (response) {
+      _this.marketplaces = response.data;
+      console.log(response.data);
+    });
+  },
+  data: function data() {
+    return {
+      marketplaces: []
+    };
+  }
 });
 
 /***/ }),

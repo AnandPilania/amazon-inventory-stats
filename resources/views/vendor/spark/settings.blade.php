@@ -118,7 +118,7 @@
                             <ul class="nav flex-column mb-4 ">
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#subscription" aria-controls="subscription" role="tab"
+                                    <a class="nav-link" href="#mws" aria-controls="mws" role="tab"
                                        data-toggle="tab">
                                         <svg class="icon-20 " xmlns="http://www.w3.org/2000/svg " viewBox="0 0 14 20 ">
                                             <path d="M7 3v2c-2.8 0-5 2.2-5 5 0 1.4.6 2.6 1.5 3.5L2 15c-1.2-1.3-2-3-2-5 0-4 3-7 7-7zm5 2c1.2 1.3 2 3
@@ -137,27 +137,35 @@
                 <!-- Tab cards -->
                 <div class="col-md-9">
                     <div class="tab-content">
+
+{{--                        MWS setting card--}}
+                        <div role="tabcard" class="tab-pane" id="mws">
+                            @include('frontend.mws-settings')
+                        </div>
+
+
                         <!-- Profile -->
                         <div role="tabcard" class="tab-pane active" id="profile">
-                            @include('spark::frontend.settings.profile')
+                            @include('spark::settings.profile')
                         </div>
+
 
                         <!-- Teams -->
                         @if (Spark::usesTeams())
                             <div role="tabcard" class="tab-pane" id="{{Spark::teamsPrefix()}}">
-                                @include('spark::frontend.settings.teams')
+                                @include('spark::settings.teams')
                             </div>
                         @endif
 
                     <!-- Security -->
                         <div role="tabcard" class="tab-pane" id="security">
-                            @include('spark::frontend.settings.security')
+                            @include('spark::settings.security')
                         </div>
 
                         <!-- API -->
                         @if (Spark::usesApi())
                             <div role="tabcard" class="tab-pane" id="api">
-                                @include('spark::frontend.settings.api')
+                                @include('spark::settings.api')
                             </div>
                         @endif
 
@@ -167,7 +175,7 @@
                             <!-- Subscription -->
                                 <div role="tabcard" class="tab-pane" id="subscription">
                                     <div v-if="user">
-                                        @include('spark::frontend.settings.subscription')
+                                        @include('spark::settings.subscription')
                                     </div>
                                 </div>
                             @endif
@@ -175,13 +183,13 @@
                         <!-- Payment Method -->
                             <div role="tabcard" class="tab-pane" id="payment-method">
                                 <div v-if="user">
-                                    @include('spark::frontend.settings.payment-method')
+                                    @include('spark::settings.payment-method')
                                 </div>
                             </div>
 
                             <!-- Invoices -->
                             <div role="tabcard" class="tab-pane" id="invoices">
-                                @include('spark::frontend.settings.invoices')
+                                @include('spark::settings.invoices')
                             </div>
                         @endif
                     </div>

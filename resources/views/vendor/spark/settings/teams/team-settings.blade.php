@@ -109,14 +109,14 @@
                     <!-- Owner Information -->
                     @if (Auth::user()->ownsTeam($team))
                         <div role="tabcard" class="tab-pane active" id="owner">
-                            @include('spark::frontend.settings.teams.team-profile')
+                            @include('spark::settings.teams.team-profile')
                         </div>
                     @endif
 
                     <!-- Membership -->
                     <div role="tabcard" class="tab-pane" id="membership">
                         <div v-if="team">
-                            @include('spark::frontend.settings.teams.team-membership')
+                            @include('spark::settings.teams.team-membership')
                         </div>
                     </div>
 
@@ -126,7 +126,7 @@
                             <!-- Subscription -->
                             <div role="tabcard" class="tab-pane" id="subscription">
                                 <div v-if="user && team">
-                                    @include('spark::frontend.settings.subscription')
+                                    @include('spark::settings.subscription')
                                 </div>
                             </div>
                         @endif
@@ -134,14 +134,14 @@
                         <!-- Payment Method -->
                         <div role="tabcard" class="tab-pane" id="payment-method">
                             <div v-if="user && team">
-                                @include('spark::frontend.settings.payment-method')
+                                @include('spark::settings.payment-method')
                             </div>
                         </div>
 
                         <!-- Invoices -->
                         <div role="tabcard" class="tab-pane" id="invoices">
                             <div v-if="user && team">
-                                @include('spark::frontend.settings.invoices')
+                                @include('spark::settings.invoices')
                             </div>
                         </div>
                     @endif

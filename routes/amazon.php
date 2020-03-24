@@ -2,7 +2,7 @@
 
 use \Illuminate\Support\Facades\Route;
 
-Route::get('/testing', 'SettingsController@index');
+Route::get('/marketplaces', 'MarketplaceController@index');
 
 Route::get('/home', 'HomeController@show');
 
