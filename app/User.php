@@ -2,13 +2,10 @@
 
 namespace App;
 
-use Laravel\Spark\CanJoinTeams;
 use Laravel\Spark\User as SparkUser;
 
 class User extends SparkUser
 {
-    use CanJoinTeams;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +27,7 @@ class User extends SparkUser
         'authy_id',
         'country_code',
         'phone',
+        'two_factor_reset_code',
         'card_brand',
         'card_last_four',
         'card_country',
