@@ -13,10 +13,10 @@
                     </tr>
                     <tr v-for="marketplace in marketplaces" :key="marketplace.id">
                         <td>
-                            @{{ marketplace.marketplace_name }}
+                            @{{ marketplace.name }}
                         </td>
                         <td>
-                            @{{ marketplace.domain }}
+                            @{{ marketplace.code }}
                         </td>
 
                     </tr>
@@ -31,26 +31,48 @@
 
             <div class="card-body">
                 <form role="form">
+
+                    <div v-if="errorMessage">
+                        <div class="alert alert-danger" role="alert">
+                            @{{ errorMessage }}
+                        </div>
+                    </div>
+                    <div v-if="successMessage">
+                        <div class="alert alert-success" role="alert">
+                            @{{ successMessage }}
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-md-4 col-form-label text-md-right">Seller ID</label>
-                        <div class="col-md-6"><input type="text" name="name" class="form-control"> <span
+                        <div class="col-md-6">
+                            <input type="text" v-model="seller_id" name="name" class="form-control"> <span
                                 class="invalid-feedback" style="display: none;">
                             </span></div>
                     </div> <!---->
 
                     <div class="form-group row">
+                        <label class="col-md-4 col-form-label text-md-right">MWS auth Token</label>
+                        <div class="col-md-6">
+                            <input type="text" v-model="mws_auth_token" name="mws_auth_token" class="form-control"> <span
+                                class="invalid-feedback" style="display: none;">
+                            </span>
+                        </div>
+                    </div> <!---->
+
+                    <div class="form-group row">
                         <label class="col-md-4 col-form-label text-md-right">Marketplace</label>
                         <div class="col-md-6">
-                            <select name="marketplace_id"  id="marketplace-dropdown" class="form-control">
+                            <select v-model="amazon_marketplace_id" name="amazon_marketplace_id"
+                                    id="marketplace-dropdown" class="form-control">
                                 <option v-for="marketplace in marketplaces" :value="marketplace.id">
-                                    @{{ marketplace.domain }}
+                                    @{{ marketplace.name }}
                                 </option>
                             </select>
                         </div>
                     </div> <!---->
                     <div class="form-group row mb-0">
                         <div class="offset-md-4 col-md-6">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="button" @click="createMarketplace" class="btn btn-primary">
 
                                 Create
                             </button>

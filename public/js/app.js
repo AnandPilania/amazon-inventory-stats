@@ -73026,11 +73026,9 @@ Vue.component('spark-notifications', {
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 Vue.component('mws-settings-form', {
-  props: ['team'],
   mounted: function mounted() {
     var _this = this;
 
-    console.log('Hello testing', this.marketplaces);
     axios.get('/amazon/marketplaces').then(function (response) {
       _this.marketplaces = response.data;
       console.log(response.data);
@@ -73038,8 +73036,35 @@ Vue.component('mws-settings-form', {
   },
   data: function data() {
     return {
-      marketplaces: []
+      marketplaces: [],
+      seller_id: '',
+      amazon_marketplace_id: '',
+      mws_auth_token: '',
+      errorMessage: '',
+      successMessage: ''
     };
+  },
+  methods: {
+    createMarketplace: function createMarketplace() {
+      var that = this;
+      axios.post('/amazon/marketplaces', {
+        seller_id: this.seller_id,
+        amazon_marketplace_id: this.amazon_marketplace_id,
+        mws_auth_token: this.mws_auth_token
+      }).then(function (response) {
+        that.marketplaces = [];
+        response.data.marketplaces.forEach(function (item) {
+          that.marketplaces.push(item);
+        });
+        that.errorMessage = '';
+        that.amazon_marketplace_id = '';
+        that.mws_auth_token = '';
+        that.successMessage = response.data.message;
+      })["catch"](function (error) {
+        console.log(error.response.data.error);
+        that.errorMessage = error.response.data.error;
+      });
+    }
   }
 });
 
