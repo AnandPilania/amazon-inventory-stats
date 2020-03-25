@@ -41,7 +41,6 @@ class AmazonClient
     {
         if ($this->mws) {
 
-            $this->mws->validateCredentials();
             return $this->mws->RequestReport($reportType, $startDate, $endDate);
         }
 

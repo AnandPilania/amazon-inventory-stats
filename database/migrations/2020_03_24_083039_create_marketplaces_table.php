@@ -16,9 +16,10 @@ class CreateMarketplacesTable extends Migration
         Schema::create('marketplaces', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('marketplace_name');
+            $table->string('name');
             $table->string('amazon_marketplace_id');
-            $table->string('domain');
+            $table->string('endpoint');
+            $table->string('code');
         });
     }
 

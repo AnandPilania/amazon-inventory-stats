@@ -29,3 +29,4 @@ coverage.xml
 /coverage
 .phpunit.result.cache
 /dbdata
+/public/adminer.php
