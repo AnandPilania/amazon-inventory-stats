@@ -14,4 +14,9 @@ class MarketplaceController extends Controller
         $marketplaces =   Marketplace::all()->take(5); //auth()->user()->marketplaces()->get();
         return response()->json($marketplaces);
     }
+
+    public function create ()
+    {
+
+    }
 }
