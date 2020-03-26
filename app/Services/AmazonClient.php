@@ -45,7 +45,7 @@ class AmazonClient
     {
         if ($this->mws) {
             return $this->mws->RequestReport(
-                $reportType, now()->subDays(30)->toDateTime(),
+                $reportType, now()->subDays(2)->toDateTime(),
                 now()->toDateTime());
         }
     }

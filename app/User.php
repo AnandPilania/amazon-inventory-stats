@@ -61,4 +61,9 @@ class User extends SparkUser
     {
         return $this->hasMany(ReportRequest::class);
     }
+
+    public function orders ()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

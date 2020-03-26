@@ -4,6 +4,7 @@ namespace App\Jobs\Amazon;
 
 use App\ReportRequest;
 use App\Services\AmazonClient;
+use App\Services\OrderTransformer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -46,14 +47,28 @@ class GetReportJob implements ShouldQueue
 
         $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
 
-        if ($reportData) {
-
+        if ($reportData == false) {
+            dispatch(
+                new GetReportJob($this->reportRequest)
+            )->delay(20);
             $this->delete();
+
+        } else {
+
+            $this->saveOrders($orders = OrderTransformer::transform($reportData));
+            $this->reportRequest->status = '_DONE_';
+            $this->reportRequest->mws_report_fetched_at = now();
+            $this->reportRequest->update();
         }
 
-        dispatch(
-            new GetReportJob($this->reportRequest)
-        )->delay(10);
+    }
 
+    public function saveOrders ($orders)
+    {
+        /*
+         * @var User
+         */
+        $user = $this->reportRequest->user;
+        $user->orders()->createMany($orders);
     }
 }
