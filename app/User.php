@@ -49,9 +49,11 @@ class User extends SparkUser
         'uses_two_factor_auth' => 'boolean',
     ];
 
-    public function marketplaces(){
+    public function marketplaces ()
+    {
 
-        return $this->belongsToMany(Marketplace::class)->withPivot(['mws_auth_token']);
+        return $this->belongsToMany(Marketplace::class)
+            ->withPivot(['mws_auth_token', 'report_fetched_at', 'seller_id']);
 
     }
 }
