@@ -56,4 +56,9 @@ class User extends SparkUser
             ->withPivot(['mws_auth_token', 'report_fetched_at', 'seller_id']);
 
     }
+
+    public function reportRequests ()
+    {
+        return $this->hasMany(ReportRequest::class);
+    }
 }

@@ -15,7 +15,7 @@ class AddReportsFetchedAt extends Migration
     {
         Schema::table('marketplace_user', function (Blueprint $table) {
             //
-            $table->dateTime('report_fetched_at');
+            $table->dateTime('report_fetched_at')->nullable();
         });
     }
 

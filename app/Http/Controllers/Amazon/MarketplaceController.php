@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Amazon;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Amazon\CreateMarketPlaceRequest;
 use App\Marketplace;
 use Illuminate\Http\Request;
 
@@ -33,12 +32,19 @@ class MarketplaceController extends Controller
             );
         }
 
-        // TODO save and validate credentials
-        $marketplaces = Marketplace::all()->take(5); //auth()->user()->marketplaces()->get();
+        $marketplace =  Marketplace::query()->findOrFail($request->amazon_marketplace_id);
+
+        $request->user()->marketplaces()
+            ->sync($marketplace,[
+                'mws_auth_token' => $request->mws_auth_token,
+                'seller_id' => $request->seller_id,
+                ]);
 
         return response()->json([
-            'marketplaces' => $marketplaces,
-            'message' => 'Marketplace Successfully added'
+            'marketplaces' => [],
+            'message' => 'Marketplace Successfully added',
         ]);
     }
+
+
 }

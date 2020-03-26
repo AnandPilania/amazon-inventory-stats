@@ -3,7 +3,7 @@
 return [
 
     'US' => [
-        'access_id' => env('MWS_ACCESS_KEY'),
-        'secret_key' => env('MWS_SECRET_KEY'),
+        'access_id' => env('US_MWS_ACCESS_KEY'),
+        'secret_key' => env('US_MWS_SECRET_KEY'),
     ],
 ];

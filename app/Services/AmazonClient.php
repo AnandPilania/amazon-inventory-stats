@@ -4,29 +4,33 @@
 namespace App\Services;
 
 
+use App\User;
 use MCS\MWSClient;
 
 class AmazonClient
 {
     protected $mws;
 
-    public function __construct ($user, $marketplace)
+    /**
+     * AmazonClient constructor.
+     * @param $user
+     * @param int $marketplaceId
+     * @throws \Exception
+     */
+    public function __construct (User $user, int $marketplaceId)
     {
-        try {
 
-            if ($user) {
-                $this->mws = new MWSClient(
-                    [
-                        'Marketplace_Id' => config('mws.US.marketplace_id'),
-                        'Seller_Id' => $marketplace->seller_id,
-                        'Access_Key_ID' => config('mws.US.access_id'),
-                        'Secret_Access_Key' => config('mws.US.secret_key'),
-                        'MWSAuthToken' => $marketplace->mws_auth_token,
-                    ]
-                );
-            }
-        } catch (\Exception $e) {
-        }
+        $marketplace = $user->marketplaces()->findOrFail($marketplaceId);
+
+        $this->mws = new MWSClient(
+            [
+                'Marketplace_Id' => $marketplace->amazon_marketplace_id,
+                'Seller_Id' => $marketplace->pivot->seller_id,
+                'Access_Key_ID' => config('mws.US.access_id'),
+                'Secret_Access_Key' => config('mws.US.secret_key'),
+                'MWSAuthToken' => $marketplace->pivot->mws_auth_token,
+            ]
+        );
 
     }
 
@@ -40,9 +44,19 @@ class AmazonClient
     public function requestReport ($reportType, $startDate = null, $endDate = null)
     {
         if ($this->mws) {
-
-            return $this->mws->RequestReport($reportType, $startDate, $endDate);
+            return $this->mws->RequestReport(
+                $reportType, now()->subDays(30)->toDateTime(),
+                now()->toDateTime());
         }
+    }
 
+    public function getReportRequestList ($reportType = [])
+    {
+        return $this->mws->GetReportList($reportType);
+    }
+
+    public function getReport ($reportId)
+    {
+        return $this->mws->GetReport($reportId);
     }
 }

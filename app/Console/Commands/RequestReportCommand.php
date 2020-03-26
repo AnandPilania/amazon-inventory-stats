@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Amazon\RequestReportJob;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -38,12 +39,17 @@ class RequestReportCommand extends Command
      */
     public function handle ()
     {
-        $users = User::with([
-            'marketplaces' => function ($query) {
-//                $query->wherePivot('')
-            },
-        ])->get();
+//        $users = User::with([
+//            'marketplaces' => function ($query) {
+////                $query->wherePivot('')
+//            },
+//        ])->get();
 
-        dd($users);
+//        dd($users);
+
+        dispatch(
+            new RequestReportJob( User::first(), 2)
+        );
+
     }
 }
