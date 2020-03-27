@@ -19,6 +19,8 @@ class ReportRequest extends Model
         'status',
         'mws_report_id',
         'mws_report_fetched_at',
+        'start_date',
+        'end_date'
     ];
 
     public function user ()

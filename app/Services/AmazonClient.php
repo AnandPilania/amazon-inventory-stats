@@ -43,10 +43,21 @@ class AmazonClient
      */
     public function requestReport ($reportType, $startDate = null, $endDate = null)
     {
+
+        if (!$startDate) {
+            $startDate = now()->subDays(2)->toDateTime();
+        }
+
+        if (!$startDate) {
+            $endDate = now();
+        }
+
         if ($this->mws) {
             return $this->mws->RequestReport(
-                $reportType, now()->subDays(2)->toDateTime(),
-                now()->toDateTime());
+                $reportType,
+                $startDate,
+                $endDate
+            );
         }
     }
 

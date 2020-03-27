@@ -18,18 +18,29 @@ class RequestReportJob implements ShouldQueue
     protected $user;
     protected $marketplaceId;
     protected $reportType;
+    protected $startDate;
+    protected $endDate;
 
     /**
      * RequestReportJob constructor.
      * @param User $user
      * @param $marketplaceId
      * @param string $reportType
+     * @param $startDate
+     * @param $endDate
      */
-    public function __construct (User $user, $marketplaceId, $reportType = '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_')
-    {
+    public function __construct (
+        User $user,
+        $marketplaceId,
+        $reportType = '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+        $startDate = null,
+        $endDate = null
+    ) {
         $this->user = $user;
         $this->marketplaceId = $marketplaceId;
         $this->reportType = $reportType;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
 
@@ -51,13 +62,13 @@ class RequestReportJob implements ShouldQueue
     public function handle ()
     {
         $response = (new AmazonClient($this->user, $this->marketplaceId))
-            ->requestReport($this->reportType);
+            ->requestReport($this->reportType, $this->startDate, $this->endDate);
 
 
         $reportRequest = $this->user->reportRequests()->create([
             'report_type' => $this->reportType,
             'report_request_id' => $response,
-            'marketplace_id' => $this->marketplaceId
+            'marketplace_id' => $this->marketplaceId,
         ]);
 
         dispatch(new GetReportJob($reportRequest))->delay(5);
