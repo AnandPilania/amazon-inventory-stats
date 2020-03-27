@@ -23,3 +23,13 @@ For the setting up the application run ``php artisan migrate`` also run `php art
 
 
 While fetching the data if the orders does not exist in database. it will insert the data or it will update the orders.
+
+
+Also set the Keys in .env
+
+
+
+US_MWS_ACCESS_KEY=""
+US_MWS_SECRET_KEY=""
+EU_MWS_ACCESS_KEY=""
+EU_MWS_SECRET_KEY=""
