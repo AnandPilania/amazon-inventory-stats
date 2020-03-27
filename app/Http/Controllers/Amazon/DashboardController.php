@@ -4,19 +4,17 @@ namespace App\Http\Controllers\Amazon;
 
 use App\Http\Controllers\Controller;
 use App\Order;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index ()
     {
-        $data =   Order::query()
-            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%d-%m") as date, sku, SUM(quantity) as sold')
-            ->groupBy('date','sku', 'marketplace_id')
-            ->get()
-            ->toArray();
+        $orders = Order::query()
+            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%d-%m") as purchase_date, sku, SUM(quantity) as sold')
+            ->groupBy('purchase_date', 'sku', 'marketplace_id')
+            ->paginate(20);
+//            ->get();
 
-        dd($data);
-        return view('amazon.index');
+        return view('amazon.index', compact('orders'));
     }
 }
