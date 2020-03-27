@@ -11,8 +11,15 @@ class MarketplaceController extends Controller
     //
     public function index ()
     {
-        $marketplaces = Marketplace::all()->take(5); //auth()->user()->marketplaces()->get();
+
+        return response()->json(Marketplace::all());
+    }
+
+    public function userMarketplaces ()
+    {
+        $marketplaces = auth()->user()->marketplaces()->get();
         return response()->json($marketplaces);
+
     }
 
     public function create (Request $request)
@@ -32,16 +39,20 @@ class MarketplaceController extends Controller
             );
         }
 
-        $marketplace =  Marketplace::query()->findOrFail($request->amazon_marketplace_id);
+        $marketplace = Marketplace::query()->findOrFail($request->amazon_marketplace_id);
 
         $request->user()->marketplaces()
-            ->sync($marketplace,[
-                'mws_auth_token' => $request->mws_auth_token,
-                'seller_id' => $request->seller_id,
-                ]);
+            ->sync([
+                $marketplace->id => [
+                    'mws_auth_token' => $request->mws_auth_token,
+                    'seller_id' => $request->seller_id,
+                ],
+            ]);
+
+        $marketplaces = auth()->user()->marketplaces()->get();
 
         return response()->json([
-            'marketplaces' => [],
+            'marketplaces' => $marketplaces,
             'message' => 'Marketplace Successfully added',
         ]);
     }

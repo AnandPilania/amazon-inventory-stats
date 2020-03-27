@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marketplace extends Model
 {
+    protected $fillable = [
+
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function user ()
     {
-        return $this->belongsToMany(User::class)->withPivot('mws_auth_token');
+        return $this->belongsToMany(User::class)->withPivot('mws_auth_token', 'seller_id');
     }
 
     /**

@@ -26,8 +26,8 @@ class AmazonClient
             [
                 'Marketplace_Id' => $marketplace->amazon_marketplace_id,
                 'Seller_Id' => $marketplace->pivot->seller_id,
-                'Access_Key_ID' => config('mws.US.access_id'),
-                'Secret_Access_Key' => config('mws.US.secret_key'),
+                'Access_Key_ID' => config('mws.' . $marketplace->region->name . '.access_id'),
+                'Secret_Access_Key' => config('mws.' . $marketplace->region->name . '.secret_key'),
                 'MWSAuthToken' => $marketplace->pivot->mws_auth_token,
             ]
         );

@@ -39,17 +39,22 @@ class RequestReportCommand extends Command
      */
     public function handle ()
     {
-//        $users = User::with([
-//            'marketplaces' => function ($query) {
-////                $query->wherePivot('')
-//            },
-//        ])->get();
 
-//        dd($users);
+        $users = User::all();
 
-        dispatch(
-            new RequestReportJob( User::first(), 2)
-        );
+        foreach ($users as $user) {
+
+            $marketplaces = $user->marketplaces;
+
+            foreach ($marketplaces as $marketplace) {
+
+                dispatch(new RequestReportJob(
+                    $user,
+                    $marketplace->id
+                ));
+            }
+
+        }
 
     }
 }

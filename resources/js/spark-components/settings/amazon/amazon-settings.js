@@ -7,10 +7,18 @@ Vue.component('mws-settings-form', {
                 this.marketplaces = response.data;
                 console.log(response.data)
             });
+
+
+        axios.get('/amazon/marketplaces/user')
+            .then(response => {
+                this.userMarketplaces = response.data;
+                console.log(response.data)
+            });
     },
     data() {
         return {
             marketplaces: [],
+            userMarketplaces: [],
             seller_id: '',
             amazon_marketplace_id: '',
             mws_auth_token: '',
@@ -32,7 +40,7 @@ Vue.component('mws-settings-form', {
 
                     that.marketplaces = [];
                     response.data.marketplaces.forEach((item) => {
-                        that.marketplaces.push(item)
+                        that.userMarketplaces.push(item)
                     });
                     that.errorMessage = '';
                     that.amazon_marketplace_id = '';

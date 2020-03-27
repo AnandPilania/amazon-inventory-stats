@@ -46,8 +46,7 @@ class GetReportJob implements ShouldQueue
     {
         $amazonClient = new AmazonClient($this->reportRequest->user, $this->reportRequest->marketplace->id);
 
-//        $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
-        $reportData = $amazonClient->getReport('298883018347');
+        $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
 
         if ($reportData == false) {
             dispatch(

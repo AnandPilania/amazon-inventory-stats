@@ -9,11 +9,17 @@
                 <table class="table table-responsive">
                     <tr>
                         <th>Name</th>
-                        <th>Domain</th>
+                        <th>Seller ID</th>
+                        <th>Code</th>
                     </tr>
-                    <tr v-for="marketplace in marketplaces" :key="marketplace.id">
+                    <tr v-for="marketplace in userMarketplaces" :key="marketplace.id">
                         <td>
                             @{{ marketplace.name }}
+
+                        </td>
+                        <td>
+                            @{{ marketplace.pivot.seller_id }}
+
                         </td>
                         <td>
                             @{{ marketplace.code }}

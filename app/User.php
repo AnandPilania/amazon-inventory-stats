@@ -53,7 +53,7 @@ class User extends SparkUser
     {
 
         return $this->belongsToMany(Marketplace::class)
-            ->withPivot(['mws_auth_token', 'report_fetched_at', 'seller_id']);
+            ->withPivot('mws_auth_token', 'report_fetched_at', 'seller_id');
 
     }
 

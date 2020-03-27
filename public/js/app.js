@@ -73033,10 +73033,15 @@ Vue.component('mws-settings-form', {
       _this.marketplaces = response.data;
       console.log(response.data);
     });
+    axios.get('/amazon/marketplaces/user').then(function (response) {
+      _this.userMarketplaces = response.data;
+      console.log(response.data);
+    });
   },
   data: function data() {
     return {
       marketplaces: [],
+      userMarketplaces: [],
       seller_id: '',
       amazon_marketplace_id: '',
       mws_auth_token: '',
@@ -73054,7 +73059,7 @@ Vue.component('mws-settings-form', {
       }).then(function (response) {
         that.marketplaces = [];
         response.data.marketplaces.forEach(function (item) {
-          that.marketplaces.push(item);
+          that.userMarketplaces.push(item);
         });
         that.errorMessage = '';
         that.amazon_marketplace_id = '';
