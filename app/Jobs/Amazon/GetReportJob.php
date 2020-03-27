@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Amazon;
 
+use App\Order;
 use App\ReportRequest;
 use App\Services\AmazonClient;
 use App\Services\OrderTransformer;
@@ -45,7 +46,8 @@ class GetReportJob implements ShouldQueue
     {
         $amazonClient = new AmazonClient($this->reportRequest->user, $this->reportRequest->marketplace->id);
 
-        $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
+//        $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
+        $reportData = $amazonClient->getReport('298883018347');
 
         if ($reportData == false) {
             dispatch(
@@ -55,7 +57,7 @@ class GetReportJob implements ShouldQueue
 
         } else {
 
-            $this->saveOrders($orders = OrderTransformer::transform($reportData));
+            $this->saveOrders($orders = OrderTransformer::transform($reportData, $this->reportRequest));
             $this->reportRequest->status = '_DONE_';
             $this->reportRequest->mws_report_fetched_at = now();
             $this->reportRequest->update();
@@ -65,10 +67,9 @@ class GetReportJob implements ShouldQueue
 
     public function saveOrders ($orders)
     {
-        /*
-         * @var User
-         */
-        $user = $this->reportRequest->user;
-        $user->orders()->createMany($orders);
+        foreach ($orders as $order) {
+            Order::query()
+                ->updateOrInsert(['amazon_order_id' => $order[ 'amazon_order_id' ]], $order);
+        }
     }
 }

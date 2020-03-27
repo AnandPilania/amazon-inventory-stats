@@ -22,5 +22,7 @@ class Order extends Model
         'asin',
         'user_id',
         'quantity',
+        'marketplace_id',
+        'report_id',
     ];
 }

@@ -28,6 +28,6 @@ class ReportRequest extends Model
 
     public function marketplace ()
     {
-        return $this->belongsTo(Marketplace::class);
+        return $this->belongsTo(Marketplace::class, 'marketplace_id', 'id');
     }
 }
