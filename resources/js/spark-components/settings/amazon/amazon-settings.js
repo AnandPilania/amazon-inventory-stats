@@ -38,7 +38,7 @@ Vue.component('mws-settings-form', {
             })
                 .then(response => {
 
-                    that.marketplaces = [];
+                    that.userMarketplaces = [];
                     response.data.marketplaces.forEach((item) => {
                         that.userMarketplaces.push(item)
                     });

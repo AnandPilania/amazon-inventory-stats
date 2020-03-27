@@ -42,11 +42,11 @@ class MarketplaceController extends Controller
         $marketplace = Marketplace::query()->findOrFail($request->amazon_marketplace_id);
 
         $request->user()->marketplaces()
-            ->sync([
-                $marketplace->id => [
-                    'mws_auth_token' => $request->mws_auth_token,
-                    'seller_id' => $request->seller_id,
-                ],
+            ->attach(
+                $marketplace->id, [
+                'mws_auth_token' => $request->mws_auth_token,
+                'seller_id' => $request->seller_id,
+
             ]);
 
         $marketplaces = auth()->user()->marketplaces()->get();
