@@ -51,6 +51,7 @@ class PastDataCommand extends Command
 //        Carbon::parse();
         $users = User::all();
 
+        $counter = 60;
         $endDate = now()->subYears(2);
 
         while (now() > $endDate) {
@@ -61,6 +62,7 @@ class PastDataCommand extends Command
                 foreach ($marketplaces as $marketplace) {
 
                     sleep(3);
+                    $counter = $counter + 60;
                     dump($user,
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
@@ -75,7 +77,7 @@ class PastDataCommand extends Command
                         $endDate->toDateTime(),
                         $endDate->addDays(2)->toDateTime()
 
-                    ))->delay(20);
+                    ))->delay($counter);
                 }
 
             }

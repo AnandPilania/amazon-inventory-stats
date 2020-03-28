@@ -166,7 +166,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 512,
 
     /*
     |--------------------------------------------------------------------------
@@ -186,7 +186,7 @@ return [
                 'queue' => ['default'],
                 'balance' => 'simple',
                 'processes' => 10,
-                'tries' => 1,
+                'tries' => 5,
             ],
         ],
 
