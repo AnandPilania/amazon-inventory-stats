@@ -35,8 +35,7 @@ class GetReportJob implements ShouldQueue
     {
         $rateLimitedMiddleware = (new RateLimited())
             ->allow(1)
-            ->everySeconds(60)
-            ->releaseAfterSeconds(130);
+            ->everySeconds(80);
 
         return [$rateLimitedMiddleware];
     }
