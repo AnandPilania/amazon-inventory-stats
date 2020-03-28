@@ -4,6 +4,7 @@ namespace App\Console\Commands\Amazon;
 
 use App\Jobs\Amazon\RequestReportJob;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class PastDataCommand extends Command
@@ -44,20 +45,41 @@ class PastDataCommand extends Command
     public function handle ()
     {
 
+        $startDate = $this->option('startDate');
+        $endDate = $this->option('endDate');
+
+        Carbon::parse();
         $users = User::all();
 
-        foreach ($users as $user) {
+        $endDate = now()->subDays(5);
 
-            $marketplaces = $user->marketplaces;
+        while (now() > $endDate) {
+            foreach ($users as $user) {
 
-            foreach ($marketplaces as $marketplace) {
+                $marketplaces = $user->marketplaces;
 
-                dispatch(new RequestReportJob(
-                    $user,
-                    $marketplace->id
-                ));
+                foreach ($marketplaces as $marketplace) {
+
+                    sleep(3);
+                    dump($user,
+                        $marketplace->id,
+                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+                        $endDate->toDateTime(),
+                        $endDate->addDays(2)->toDateTime()
+                    );
+
+                    dispatch(new RequestReportJob(
+                        $user,
+                        $marketplace->id,
+                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+                        $endDate->toDateTime(),
+                        $endDate->addDays(2)->toDateTime()
+
+                    ))->delay(20);
+                }
+
             }
-
+            $endDate = $endDate->addDay();
         }
 
     }

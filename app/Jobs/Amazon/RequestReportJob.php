@@ -47,9 +47,9 @@ class RequestReportJob implements ShouldQueue
     public function middleware ()
     {
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow(60)
-            ->everyMinute()
-            ->releaseAfterSeconds(15);
+            ->allow(1)
+            ->everySeconds(60)
+            ->releaseAfterSeconds(3600);
 
         return [$rateLimitedMiddleware];
     }
@@ -69,6 +69,8 @@ class RequestReportJob implements ShouldQueue
             'report_type' => $this->reportType,
             'report_request_id' => $response,
             'marketplace_id' => $this->marketplaceId,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
         ]);
 
         dispatch(new GetReportJob($reportRequest))->delay(5);

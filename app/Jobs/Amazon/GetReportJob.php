@@ -19,6 +19,8 @@ class GetReportJob implements ShouldQueue
 
     public $reportRequest;
 
+
+
     /**
      * Create a new job instance.
      *
@@ -32,9 +34,9 @@ class GetReportJob implements ShouldQueue
     public function middleware ()
     {
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow(60)
-            ->everyMinute()
-            ->releaseAfterSeconds(15);
+            ->allow(1)
+            ->everySeconds(60)
+            ->releaseAfterSeconds(60*60);
 
         return [$rateLimitedMiddleware];
     }
