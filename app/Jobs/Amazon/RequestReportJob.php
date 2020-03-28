@@ -47,8 +47,8 @@ class RequestReportJob implements ShouldQueue
     public function middleware ()
     {
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow(45)
-            ->everyMinutes(60)
+            ->allow(1)
+            ->everySeconds(60)
             ->releaseAfterSeconds(130);
 
         return [$rateLimitedMiddleware];
