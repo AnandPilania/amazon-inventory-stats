@@ -61,8 +61,7 @@ class PastDataCommand extends Command
 
                 foreach ($marketplaces as $marketplace) {
 
-                    sleep(3);
-                    $counter = $counter + 60;
+                    $counter = $counter + 61;
                     dump($user,
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
