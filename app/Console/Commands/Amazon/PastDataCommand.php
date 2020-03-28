@@ -48,10 +48,10 @@ class PastDataCommand extends Command
         $startDate = $this->option('startDate');
         $endDate = $this->option('endDate');
 
-        Carbon::parse();
+//        Carbon::parse();
         $users = User::all();
 
-        $endDate = now()->subDays(5);
+        $endDate = now()->subYears(2);
 
         while (now() > $endDate) {
             foreach ($users as $user) {
