@@ -65,7 +65,7 @@ class PastDataCommand extends Command
 
                 foreach ($marketplaces as $marketplace) {
 
-//                    $counter = $counter + 180;
+                    $counter = $counter + 180;
                     dump(
 
                         $marketplace->id,
