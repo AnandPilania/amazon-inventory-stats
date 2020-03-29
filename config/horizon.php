@@ -186,7 +186,7 @@ return [
                 'queue' => ['default'],
                 'balance' => 'simple',
                 'processes' => 1,
-                'tries' => 10,
+                'tries' => 20,
             ],
         ],
 
