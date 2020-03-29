@@ -70,7 +70,11 @@ class GetReportJob implements ShouldQueue
     {
         foreach ($orders as $order) {
             Order::query()
-                ->updateOrInsert(['amazon_order_id' => $order[ 'amazon_order_id' ]], $order);
+                ->updateOrInsert(
+                    [
+                        'amazon_order_id' => $order[ 'amazon_order_id' ],
+                        'marketplace_id' => $order[ 'marketplace_id' ],
+                    ], $order);
         }
     }
 }
