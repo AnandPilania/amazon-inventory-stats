@@ -73,7 +73,7 @@ class RequestReportJob implements ShouldQueue
             'end_date' => $this->endDate,
         ]);
 
-        dispatch(new GetReportJob($reportRequest))->delay(5);
+        dispatch(new GetReportJob($reportRequest))->delay(180);
 
     }
 }
