@@ -44,11 +44,13 @@ class ReportFetchCommand extends Command
         foreach ($users as $user) {
 
             $reports = $user->reportRequests()
-                ->whereNull('mws_report_fetched_at');
+                ->whereNull('mws_report_fetched_at')->get();
 
+            $counter = 0;
             foreach ($reports as $report) {
 
-                dispatch(new GetReportJob($report));
+                $counter = $counter + 80;
+                dispatch(new GetReportJob($report))->delay($counter);
             }
 
         }
