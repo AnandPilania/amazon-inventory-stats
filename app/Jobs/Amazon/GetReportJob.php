@@ -53,7 +53,7 @@ class GetReportJob implements ShouldQueue
         if ($reportData == false) {
             dispatch(
                 new GetReportJob($this->reportRequest)
-            )->delay(20);
+            )->delay(180);
             $this->delete();
 
         } else {

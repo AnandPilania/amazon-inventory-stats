@@ -52,30 +52,33 @@ class PastDataCommand extends Command
         $users = User::all();
 
         $counter = 60;
-        $endDate = now()->subYears(2);
+        $endDate = now()->subMonths(24);
 
         while (now() > $endDate) {
+
+            $startDateTime = $endDate->toDateTime();
+            $endDateTime = $endDate->month(1)->toDateTime();
             foreach ($users as $user) {
 
                 $marketplaces = $user->marketplaces;
 
                 foreach ($marketplaces as $marketplace) {
 
-                    $counter = $counter + 80;
+                    $counter = $counter + 180;
                     dump(
                         $user,
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
-                        $endDate->toDateTime(),
-                        $endDate->addDays(2)->toDateTime()
+                        $startDate,
+                        $endDate
                     );
 
                     dispatch(new RequestReportJob(
                         $user,
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
-                        $endDate->toDateTime(),
-                        $endDate->addDays(2)->toDateTime()
+                        $startDateTime,
+                        $endDateTime
 
                     ))->delay($counter);
 
