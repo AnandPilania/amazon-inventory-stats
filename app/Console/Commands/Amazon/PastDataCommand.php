@@ -54,23 +54,26 @@ class PastDataCommand extends Command
         $counter = 60;
         $endDate = now()->subMonths(24);
 
+        $index = 1;
         while (now() > $endDate) {
 
             $startDateTime = $endDate->toDateTime();
-            $endDateTime = $endDate->month(1)->toDateTime();
+            $endDateTime = $endDate->addMonths(1)->toDateTime();
             foreach ($users as $user) {
 
                 $marketplaces = $user->marketplaces;
 
                 foreach ($marketplaces as $marketplace) {
 
-                    $counter = $counter + 180;
+//                    $counter = $counter + 180;
                     dump(
-                        $user,
+
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
                         $startDate,
-                        $endDate
+                        $endDate,
+                        $index++
+
                     );
 
                     dispatch(new RequestReportJob(
@@ -80,12 +83,14 @@ class PastDataCommand extends Command
                         $startDateTime,
                         $endDateTime
 
-                    ))->delay($counter);
+                    ))
+                        ->delay($counter);
 
                 }
 
             }
         }
+        dump('Counter => ' . $index);
 
     }
 }
