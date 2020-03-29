@@ -61,8 +61,9 @@ class PastDataCommand extends Command
 
                 foreach ($marketplaces as $marketplace) {
 
-                    $counter = $counter + 61;
-                    dump($user,
+                    $counter = $counter + 80;
+                    dump(
+                        $user,
                         $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
                         $endDate->toDateTime(),
@@ -77,10 +78,10 @@ class PastDataCommand extends Command
                         $endDate->addDays(2)->toDateTime()
 
                     ))->delay($counter);
+
                 }
 
             }
-            $endDate = $endDate->addDay();
         }
 
     }
