@@ -13,10 +13,10 @@ class DashboardController extends Controller
     public function index (Request $request)
     {
         $orders = Order::query()
-            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%d-%m") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
-                $query->whereRaw('purchase_date < "' . $request->end_date . '"');
-                $query->whereRaw('purchase_date > "' . $request->start_date . '"');
+                $query->whereRaw('DATE(purchase_date) < "' . $request->end_date . '"');
+                $query->whereRaw('DATE(purchase_date ) > "' . $request->start_date . '"');
             })
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
@@ -30,7 +30,7 @@ class DashboardController extends Controller
     public function export (Request $request)
     {
         $orders = Order::query()
-            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%d-%m") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('purchase_date < "' . $request->end_date . '"');
                 $query->whereRaw('purchase_date > "' . $request->start_date . '"');

@@ -16,7 +16,7 @@
 
                                     <select class="form-control" name="marketplace_id">
                                         @foreach($marketplaces as $marketplace)
-                                            <option value="{{$marketplace->id}}"> {{ $marketplace->name }}</option>
+                                            <option {{request('marketplace_id') == $marketplace->id ?'selected':''}} value="{{$marketplace->id}}"> {{ $marketplace->name }}</option>
                                         @endforeach
                                     </select>
                                     <small id="emailHelp" class="form-text text-muted">Select the Marketplace.</small>
@@ -24,6 +24,8 @@
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Start Date</label>
                                     <input type="text" name="start_date" id="start_date" class="form-control"
+                                           value="{{request('start_date')}}"
+
                                            placeholder="Start Date">
                                 </div>
 
@@ -31,6 +33,7 @@
                                     <label for="exampleInputPassword1">End Date</label>
                                     <input type="text" class="form-control"
                                            id="end_date"
+                                           value="{{request('end_date')}}"
                                            name="end_date"
                                            placeholder="End Date">
                                 </div>

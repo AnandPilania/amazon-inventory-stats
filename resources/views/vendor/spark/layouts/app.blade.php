@@ -55,11 +55,11 @@
     <script type="text/javascript">
         $(function () {
             $('#start_date').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:ss'
+                format: 'YYYY-MM-DD'
             });
 
             $('#end_date').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:ss'
+                format: 'YYYY-MM-DD'
             });
         });
     </script>
