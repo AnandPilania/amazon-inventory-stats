@@ -49,5 +49,19 @@
     <!-- JavaScript -->
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('/js/sweetalert.min.js') }}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css" integrity="sha256-y/nn1YJAT/GwVsHZTooNErdWLjZvqMFJxNRLvigMD4I=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#start_date').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+
+            $('#end_date').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    </script>
 </body>
 </html>
