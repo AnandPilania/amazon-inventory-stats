@@ -67,7 +67,7 @@
                                         </tr>
                                     @endforeach
                                 </table>
-                                {{ $orders->links() }}
+                                {{ $orders->appends(request()->query())->links()}}
                             </div>
                         </div>
                     </div>
