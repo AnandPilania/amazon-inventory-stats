@@ -22,8 +22,7 @@ class DashboardController extends Controller
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
             ->paginate(20);
 
-        $marketplaces = Marketplace::all();
-
+        $marketplaces = $request->user()->marketplaces;
         return view('amazon.index', compact('orders', 'marketplaces'));
     }
 
