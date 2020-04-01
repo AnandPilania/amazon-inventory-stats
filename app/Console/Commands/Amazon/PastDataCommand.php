@@ -77,7 +77,7 @@ class PastDataCommand extends Command
 
                     dispatch(new RequestReportJob(
                         $user,
-                        10,
+                        $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
                         $startDateTime,
                         $endDateTime
