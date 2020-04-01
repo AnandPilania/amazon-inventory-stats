@@ -11,4 +11,11 @@ return [
         'access_id' => env('EU_MWS_ACCESS_KEY'),
         'secret_key' => env('EU_MWS_SECRET_KEY'),
     ],
+
+    'order_statuses' => [
+        'Shipped' => 'Shipped',
+        'Cancelled' => 'Cancelled',
+        'Unshipped' => 'Unshipped',
+        'Pending' => 'Pending',
+    ],
 ];

@@ -18,8 +18,8 @@ class OrderTransformer
             $transformedOrders[] = [
                 'amazon_order_id' => $order [ "amazon-order-id" ],
                 'merchant_order_id' => $order  [ "merchant-order-id" ],
-                'purchase_date' => Carbon::parse($order  [ "purchase-date" ])->utc()->format('Y-m-d h:i:s'),
-                'last_updated_date' => Carbon::parse($order [ "last-updated-date" ])->utc()->format('Y-m-d h:i:s'),
+                'purchase_date' => Carbon::parse($order  [ "purchase-date" ])->format('Y-m-d h:i:s'),
+                'last_updated_date' => Carbon::parse($order [ "last-updated-date" ])->format('Y-m-d h:i:s'),
                 'order_status' => $order [ "order-status" ],
                 'fulfillment_channel' => $order  [ "fulfillment-channel" ],
                 'sales_channel' => $order  [ "sales-channel" ],

@@ -48,7 +48,6 @@ class PastDataCommand extends Command
         $startDate = $this->option('startDate');
         $endDate = $this->option('endDate');
 
-//        Carbon::parse();
         $users = User::all();
 
         $counter = 60;
@@ -65,11 +64,11 @@ class PastDataCommand extends Command
 
                 foreach ($marketplaces as $marketplace) {
 
-                    $counter = $counter + 120;
+                    $counter = $counter + 20;
                     dump(
 
                         $marketplace->id,
-                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
                         $startDate,
                         $endDate,
                         $index++
@@ -78,8 +77,8 @@ class PastDataCommand extends Command
 
                     dispatch(new RequestReportJob(
                         $user,
-                        $marketplace->id,
-                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+                        10,
+                        '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
                         $startDateTime,
                         $endDateTime
 
@@ -90,7 +89,6 @@ class PastDataCommand extends Command
 
             }
         }
-        dump('Counter => ' . $index);
 
     }
 }

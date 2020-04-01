@@ -16,11 +16,24 @@
 
                                     <select class="form-control" name="marketplace_id">
                                         @foreach($marketplaces as $marketplace)
-                                            <option {{request('marketplace_id') == $marketplace->id ?'selected':''}} value="{{$marketplace->id}}"> {{ $marketplace->name }}</option>
+                                            <option
+                                                {{request('marketplace_id') == $marketplace->id ?'selected':''}} value="{{$marketplace->id}}"> {{ $marketplace->name }}</option>
                                         @endforeach
                                     </select>
                                     <small id="emailHelp" class="form-text text-muted">Select the Marketplace.</small>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Order Status</label>
+                                    <select class="form-control" name="order_status">
+                                        <option value=""> All </option>
+                                        @foreach(config('mws.order_statuses') as $key => $status)
+                                            <option
+                                                {{request('order_status') == $status ?'selected':''}} value="{{ $status}}"> {{ $status }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Start Date</label>
                                     <input type="text" name="start_date" id="start_date" class="form-control"
@@ -39,10 +52,10 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{route('amazon.export', request()->all() )}}" class="btn btn-success" style="float: right">Export</a>
+                                <a href="{{route('amazon.export', request()->all() )}}" class="btn btn-success"
+                                   style="float: right">Export</a>
 
                                 <div class="form-group">
-
 
 
                                 </div>

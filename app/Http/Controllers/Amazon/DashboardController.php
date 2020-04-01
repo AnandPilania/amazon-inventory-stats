@@ -18,6 +18,9 @@ class DashboardController extends Controller
                 $query->whereRaw('DATE(purchase_date) < ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) > ?', [$request->start_date]);
             })
+            ->when($request->order_status, function ($query) use ($request) {
+                $query->where('order_status', '=', $request->order_status);
+            })
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
             ->paginate(20);
@@ -28,11 +31,15 @@ class DashboardController extends Controller
 
     public function export (Request $request)
     {
+        info('I am writing the data here');
         $orders = Order::query()
             ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('purchase_date < ?', [$request->end_date]);
                 $query->whereRaw('purchase_date > ?', [$request->start_date]);
+            })
+            ->when($request->order_status, function ($query) use ($request) {
+                $query->where('order_status', '=', $request->order_status);
             })
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
@@ -78,9 +85,12 @@ class DashboardController extends Controller
                 $count = Order::query()
                     ->where('marketplace_id', $request->marketplace_id)
                     ->whereDate(DB::raw('DATE(purchase_date)'), '=', $header)
+                    ->where('order_status', '=', 'shipped')
                     ->where('sku', $sku)
-                    ->count();
-                $array[] = $count;
+                    ->selectRaw('SUM(quantity) as  total, DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
+                    ->groupByRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d")')
+                    ->first();
+                $array[] = $count->total ?? 0;
 
             }
 
