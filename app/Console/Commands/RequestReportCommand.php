@@ -51,7 +51,7 @@ class RequestReportCommand extends Command
                 dispatch(new RequestReportJob(
                     $user,
                     $marketplace->id
-                ));
+                ))->delay(60);
             }
 
         }
