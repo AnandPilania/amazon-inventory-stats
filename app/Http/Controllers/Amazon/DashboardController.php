@@ -52,7 +52,6 @@ class DashboardController extends Controller
         $csvHeaders = ['sku'];
         $dates = $orders->groupBy('purchase_date');
 
-        dd($dates, $orders);
         foreach ($dates as $key => $value) {
 
             $csvHeaders[] = $key;
