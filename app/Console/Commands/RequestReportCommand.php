@@ -42,16 +42,18 @@ class RequestReportCommand extends Command
 
         $users = User::all();
 
+        $counter = 0;
         foreach ($users as $user) {
 
             $marketplaces = $user->marketplaces;
 
             foreach ($marketplaces as $marketplace) {
 
+                $counter = $counter +60;
                 dispatch(new RequestReportJob(
                     $user,
                     $marketplace->id
-                ))->delay(60);
+                ))->delay($counter);
             }
 
         }
