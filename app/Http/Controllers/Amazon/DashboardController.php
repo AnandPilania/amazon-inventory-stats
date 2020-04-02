@@ -85,7 +85,8 @@ class DashboardController extends Controller
 
                 $count = Order::query()
                     ->where('marketplace_id', $request->marketplace_id)
-                    ->whereDate(DB::raw('DATE(purchase_date)'), '=', $header)
+                    ->whereRaw('DATE(purchase_date) = ?', [$header])
+//                    ->whereDate(DB::raw('DATE(purchase_date)'), '=', $header)
                     ->where('order_status', '!=', 'Cancelled')
                     ->where('sku', $sku)
                     ->selectRaw('SUM(quantity) as  total, DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
