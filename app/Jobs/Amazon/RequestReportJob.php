@@ -32,7 +32,7 @@ class RequestReportJob implements ShouldQueue
     public function __construct (
         User $user,
         $marketplaceId,
-        $reportType = '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_',
+        $reportType = '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
         $startDate = null,
         $endDate = null
     ) {
@@ -68,8 +68,8 @@ class RequestReportJob implements ShouldQueue
             'report_type' => $this->reportType,
             'report_request_id' =>   $response,
             'marketplace_id' => $this->marketplaceId,
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
+            'start_date' =>  now()->subDays(2)->toDateTime(),
+            'end_date' => now(),
         ]);
 
         dispatch(new GetReportJob($reportRequest))->delay(60*5);
