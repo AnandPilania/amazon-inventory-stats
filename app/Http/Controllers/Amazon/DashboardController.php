@@ -32,12 +32,11 @@ class DashboardController extends Controller
 
     public function export (Request $request)
     {
-        info('I am writing the data here');
         $orders = Order::query()
             ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
-                $query->whereRaw('purchase_date <= ?', [$request->end_date]);
-                $query->whereRaw('purchase_date >= ?', [$request->start_date]);
+                $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
+                $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
             })
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
@@ -53,6 +52,7 @@ class DashboardController extends Controller
         $csvHeaders = ['sku'];
         $dates = $orders->groupBy('purchase_date');
 
+        dd($dates, $orders);
         foreach ($dates as $key => $value) {
 
             $csvHeaders[] = $key;
