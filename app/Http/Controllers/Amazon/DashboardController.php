@@ -21,6 +21,7 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
+            ->where('order_status', '!=', 'Cancelled')
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
             ->paginate(20);
@@ -41,6 +42,7 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
+            ->where('order_status', '!=', 'Cancelled')
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
             ->get();
