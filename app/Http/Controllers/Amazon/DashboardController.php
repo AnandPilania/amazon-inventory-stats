@@ -83,9 +83,11 @@ class DashboardController extends Controller
 
                 $marketplace  = Marketplace::query()->find($request->marketplace_id);
 
+                $code = $marketplace->code == 'GB'?'uk':$marketplace->code;
+
                 $count = Order::query()
                     ->where('marketplace_id', $request->marketplace_id)
-                    ->where('sales_channel', 'like', "%".$marketplace->code.'%')
+                    ->where('sales_channel', 'like', "%".$code.'%')
                     ->whereRaw('DATE(purchase_date) = ?', [$header])
                     ->where('order_status', '!=', 'Cancelled')
                     ->where('sku', $sku)
