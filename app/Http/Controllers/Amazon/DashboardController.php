@@ -12,6 +12,11 @@ class DashboardController extends Controller
 {
     public function index (Request $request)
     {
+
+        $marketplace = Marketplace::query()->find($request->marketplace_id);
+
+        $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
+
         $orders = Order::query()
             ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
@@ -21,6 +26,7 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
+            ->where('sales_channel', 'like', "%" . $code . '%')
             ->where('order_status', '!=', 'Cancelled')
             ->where('marketplace_id', $request->marketplace_id)
             ->groupBy('purchase_date', 'sku', 'marketplace_id')
@@ -81,13 +87,13 @@ class DashboardController extends Controller
 
             foreach ($headers as $header) {
 
-                $marketplace  = Marketplace::query()->find($request->marketplace_id);
+                $marketplace = Marketplace::query()->find($request->marketplace_id);
 
-                $code = $marketplace->code == 'GB'?'uk':$marketplace->code;
+                $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
 
                 $count = Order::query()
                     ->where('marketplace_id', $request->marketplace_id)
-                    ->where('sales_channel', 'like', "%".$code.'%')
+                    ->where('sales_channel', 'like', "%" . $code . '%')
                     ->whereRaw('DATE(purchase_date) = ?', [$header])
                     ->where('order_status', '!=', 'Cancelled')
                     ->where('sku', $sku)
