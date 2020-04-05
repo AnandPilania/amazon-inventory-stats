@@ -73,7 +73,6 @@ class DashboardController extends Controller
 
         }
 
-
         $data = [];
         foreach ($skueData as $sku) {
 
@@ -82,9 +81,11 @@ class DashboardController extends Controller
 
             foreach ($headers as $header) {
 
+                $marketplace  = Marketplace::query()->find($request->marketplace_id);
 
                 $count = Order::query()
                     ->where('marketplace_id', $request->marketplace_id)
+                    ->where('sales_channel', 'like', "%".$marketplace->code.'%')
                     ->whereRaw('DATE(purchase_date) = ?', [$header])
                     ->where('order_status', '!=', 'Cancelled')
                     ->where('sku', $sku)
