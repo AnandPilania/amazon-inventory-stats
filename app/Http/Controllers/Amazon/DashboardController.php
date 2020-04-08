@@ -15,7 +15,6 @@ class DashboardController extends Controller
 
         $marketplace = Marketplace::query()->find($request->marketplace_id);
 
-        $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
 
         $orders = Order::query()
             ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
@@ -26,7 +25,10 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
-            ->when($marketplace, function ($query) use ($code) {
+            ->when($marketplace, function ($query) use ($marketplace) {
+
+                $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
+
                 $query->where('sales_channel', 'like', "%" . $code . '%');
             })
             ->where('order_status', '!=', 'Cancelled')
