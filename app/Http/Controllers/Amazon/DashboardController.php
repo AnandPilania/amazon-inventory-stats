@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
 
         $orders = Order::query()
-            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
