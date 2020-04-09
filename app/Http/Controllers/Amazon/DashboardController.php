@@ -32,8 +32,7 @@ class DashboardController extends Controller
                 $query->where('sales_channel', 'like', "%" . $code . '%');
             })
             ->where('order_status', '!=', 'Cancelled')
-            ->where('marketplace_id', $request->marketplace_id)
-            ->groupBy('purchase_date', 'sku', 'marketplace_id')
+            ->groupBy('sku', 'purchase_date')
             ->paginate(20);
 
         $marketplaces = $request->user()->marketplaces;
@@ -43,7 +42,7 @@ class DashboardController extends Controller
     public function export (Request $request)
     {
         $orders = Order::query()
-            ->selectRaw('marketplace_id , DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
@@ -52,8 +51,7 @@ class DashboardController extends Controller
                 $query->where('order_status', '=', $request->order_status);
             })
             ->where('order_status', '!=', 'Cancelled')
-            ->where('marketplace_id', $request->marketplace_id)
-            ->groupBy('purchase_date', 'sku', 'marketplace_id')
+            ->groupBy('sku', 'purchase_date')
             ->get();
 
 
