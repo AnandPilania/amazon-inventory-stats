@@ -50,13 +50,13 @@ class RequestReportCommand extends Command
 
             foreach ($regions as $region) {
 
-                $counter = $counter + 0;
+                $counter = $counter + 60;
                 dispatch(new RequestReportJob(
                     $user,
                     null,
                     '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
-                    null,
-                    null,
+                    now()->subMonth()->toDateTime(),
+                    now()->toDateTime(),
                     $region
 
                 ))->delay($counter);
