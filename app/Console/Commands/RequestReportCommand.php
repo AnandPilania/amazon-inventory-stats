@@ -50,7 +50,7 @@ class RequestReportCommand extends Command
 
             foreach ($regions as $region) {
 
-                $counter = $counter + 60;
+//                $counter = $counter + 60;
                 dispatch(new RequestReportJob(
                     $user,
                     null,
@@ -59,7 +59,7 @@ class RequestReportCommand extends Command
                     now()->toDateTime(),
                     $region
 
-                ))->delay($counter);
+                ));
             }
 
         }
