@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Amazon;
 
+use App\Marketplace;
 use App\Order;
 use App\ReportRequest;
 use App\Services\AmazonClient;
@@ -46,7 +47,16 @@ class GetReportJob implements ShouldQueue
      */
     public function handle ()
     {
-        $amazonClient = new AmazonClient($this->reportRequest->user, $this->reportRequest->marketplace->id);
+
+
+        if (!isset($this->reportRequest->marketplace->id)) {
+
+            $marketplaceId = $this->reportRequest->user->marketplaces()->where(['region_id' => $this->reportRequest->region->id])->first()->id;
+        } else {
+            $marketplaceId = $this->reportRequest->marketplace->id;
+        }
+        info('this is test');
+        $amazonClient = new AmazonClient($this->reportRequest->user, $marketplaceId);
 
         $reportData = $amazonClient->getReport($this->reportRequest->report_request_id);
 

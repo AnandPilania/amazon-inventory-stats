@@ -20,7 +20,8 @@ class ReportRequest extends Model
         'mws_report_id',
         'mws_report_fetched_at',
         'start_date',
-        'end_date'
+        'end_date',
+        'region_id'
     ];
 
     public function user ()
@@ -31,5 +32,10 @@ class ReportRequest extends Model
     public function marketplace ()
     {
         return $this->belongsTo(Marketplace::class, 'marketplace_id', 'id');
+    }
+
+    public function region ()
+    {
+        return $this->belongsTo(Region::class, 'region_id', 'id');
     }
 }

@@ -46,13 +46,19 @@ class RequestReportCommand extends Command
         foreach ($users as $user) {
 
             $marketplaces = $user->marketplaces;
+            $regions = $marketplaces->unique('region_id')->pluck('region_id');
 
-            foreach ($marketplaces as $marketplace) {
+            foreach ($regions as $region) {
 
-                $counter = $counter +60;
+                $counter = $counter + 0;
                 dispatch(new RequestReportJob(
                     $user,
-                    $marketplace->id
+                    null,
+                    '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
+                    null,
+                    null,
+                    $region
+
                 ))->delay($counter);
             }
 

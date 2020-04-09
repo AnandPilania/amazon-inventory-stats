@@ -11,4 +11,9 @@ class Region extends Model
     {
         return $this->hasMany(Marketplace::class);
     }
+
+    public function reportRequests ()
+    {
+        return $this->hasMany(ReportRequest::class);
+    }
 }

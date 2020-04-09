@@ -21,7 +21,7 @@ class AmazonClient
     {
 
         $marketplace = $user->marketplaces()->findOrFail($marketplaceId);
-
+        dump($marketplace);
         $this->mws = new MWSClient(
             [
                 'Marketplace_Id' => $marketplace->amazon_marketplace_id,
@@ -43,6 +43,7 @@ class AmazonClient
      */
     public function requestReport ($reportType, $startDate = null, $endDate = null)
     {
+        dump('I am here');
 
         if (!$startDate) {
             $startDate = now()->subDays(2)->toDateTime();
