@@ -61,13 +61,13 @@ class PastDataCommand extends Command
             foreach ($users as $user) {
 
                 $marketplaces = $user->marketplaces;
+                $regions = $marketplaces->unique('region_id')->pluck('region_id');
 
-                foreach ($marketplaces as $marketplace) {
+                foreach ($regions as $region) {
 
                     $counter = $counter + 20;
                     dump(
 
-                        $marketplace->id,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
                         $startDate,
                         $endDate,
@@ -77,10 +77,11 @@ class PastDataCommand extends Command
 
                     dispatch(new RequestReportJob(
                         $user,
-                        $marketplace->id,
+                        null,
                         '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
                         $startDateTime,
-                        $endDateTime
+                        $endDateTime,
+                        $region
 
                     ))
                         ->delay($counter);
