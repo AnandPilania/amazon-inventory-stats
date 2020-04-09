@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Order Status</label>
                                     <select class="form-control" name="order_status">
-                                        <option value=""> All </option>
+                                        <option value=""> All</option>
                                         @foreach(config('mws.order_statuses') as $key => $status)
                                             <option
                                                 {{request('order_status') == $status ?'selected':''}} value="{{ $status}}"> {{ $status }}</option>
@@ -66,14 +66,14 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-active">
                                     <tr>
-                                        <th>Marketplace Id</th>
+                                        <th>Sales Channel</th>
                                         <th> SKU</th>
                                         <th>Date</th>
                                         <th>Sold</th>
                                     </tr>
                                     @foreach( $orders as $order)
                                         <tr>
-                                            <td>{{ $order->marketplace_id }}</td>
+                                            <td>{{ $order->sales_channel }}</td>
                                             <td> {{ $order->sku }}</td>
                                             <td>{{ $order->purchase_date }}</td>
                                             <td>{{ $order->sold }}</td>

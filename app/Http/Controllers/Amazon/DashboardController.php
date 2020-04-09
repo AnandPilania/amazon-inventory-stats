@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
 
         $orders = Order::query()
-            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('sales_channel ,DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
@@ -94,7 +94,6 @@ class DashboardController extends Controller
                 $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
 
                 $count = Order::query()
-                    ->where('marketplace_id', $request->marketplace_id)
                     ->where('sales_channel', 'like', "%" . $code . '%')
                     ->whereRaw('DATE(purchase_date) = ?', [$header])
                     ->where('order_status', '!=', 'Cancelled')
