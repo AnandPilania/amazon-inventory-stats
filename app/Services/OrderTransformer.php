@@ -11,7 +11,13 @@ class OrderTransformer
 {
     public static function transform (array $orders, $reportRequest)
     {
-        dump($reportRequest->marketplace->id);
+////        dump($reportRequest->marketplace->id);
+//
+//        $regionId = null;
+//        if (!isset($reportRequest->marketplace->id)) {
+//
+//            $regionId = $reportRequest->region->id;
+//        }
         $transformedOrders = [];
         foreach ($orders as $order) {
 
