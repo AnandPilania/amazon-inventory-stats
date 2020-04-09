@@ -83,7 +83,7 @@ class GetReportJob implements ShouldQueue
                 ->updateOrInsert(
                     [
                         'amazon_order_id' => $order[ 'amazon_order_id' ],
-                        'marketplace_id' => $order[ 'marketplace_id' ],
+                        'sales_channel' => $order[ 'sales_channel' ],
                     ], $order);
         }
     }
