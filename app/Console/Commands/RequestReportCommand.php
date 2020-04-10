@@ -55,7 +55,7 @@ class RequestReportCommand extends Command
                     $user,
                     null,
                     '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_',
-                    now()->subMonth()->toDateTime(),
+                    now()->subDays(3)->toDateTime(),
                     now()->toDateTime(),
                     $region
 
