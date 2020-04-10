@@ -51,7 +51,7 @@ class PastDataCommand extends Command
         $users = User::all();
 
         $counter = 60;
-        $endDate = now()->subMonths(2);
+        $endDate = now()->subMonths(24);
 
         $index = 1;
         while (now() > $endDate) {
