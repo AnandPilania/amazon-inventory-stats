@@ -42,7 +42,7 @@ class DashboardController extends Controller
     public function export (Request $request)
     {
         $orders = Order::query()
-            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku, SUM(quantity) as sold')
+            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
@@ -50,7 +50,7 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
-            ->groupBy('sku', 'purchase_date')
+            ->groupBy('purchase_date')
             ->get();
 
 
