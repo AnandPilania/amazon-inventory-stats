@@ -51,6 +51,7 @@ class DashboardController extends Controller
                 $query->where('order_status', '=', $request->order_status);
             })
             ->groupBy('sku', 'purchase_date')
+            ->orderBy('purchase_date')
             ->get();
 
 
@@ -60,9 +61,7 @@ class DashboardController extends Controller
         $dates = $orders->groupBy('purchase_date');
 
         foreach ($dates as $key => $value) {
-
             $csvHeaders[] = $key;
-
         }
 
         $headers = [];
