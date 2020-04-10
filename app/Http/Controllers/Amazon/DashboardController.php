@@ -42,7 +42,7 @@ class DashboardController extends Controller
     public function export (Request $request)
     {
         $orders = Order::query()
-            ->selectRaw('DISTINCT(DATE_FORMAT(purchase_date, "%Y-%m-%d")) as purchase_date')
+            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
@@ -50,12 +50,13 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
-            ->groupBy('purchase_date')
+            ->groupBy('sku', 'purchase_date')
             ->get();
 
 
         $csvHeaders = [];
         $csvHeaders = ['sku', 'sales-channel'];
+//        $csvHeaders = ['sales-channel'];
         $dates = $orders->groupBy('purchase_date');
 
         foreach ($dates as $key => $value) {
