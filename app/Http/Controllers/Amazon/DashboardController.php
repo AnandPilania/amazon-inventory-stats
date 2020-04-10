@@ -50,13 +50,11 @@ class DashboardController extends Controller
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
-            ->where('order_status', '!=', 'Cancelled')
             ->groupBy('sku', 'purchase_date')
             ->get();
 
 
         $csvHeaders = [];
-
         $csvHeaders = ['sku', 'sales-channel'];
 //        $csvHeaders = ['sales-channel'];
         $dates = $orders->groupBy('purchase_date');
