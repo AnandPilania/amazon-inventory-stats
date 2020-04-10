@@ -84,6 +84,7 @@ class GetReportJob implements ShouldQueue
                     [
                         'amazon_order_id' => $order[ 'amazon_order_id' ],
                         'sales_channel' => $order[ 'sales_channel' ],
+                        'asin' => $order['asin']
                     ], $order);
         }
     }
