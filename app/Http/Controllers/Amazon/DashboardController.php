@@ -57,7 +57,8 @@ class DashboardController extends Controller
 
         $csvHeaders = [];
 
-        $csvHeaders = ['sku'];
+        $csvHeaders = ['sku', 'sales-channel'];
+//        $csvHeaders = ['sales-channel'];
         $dates = $orders->groupBy('purchase_date');
 
         foreach ($dates as $key => $value) {
@@ -76,36 +77,44 @@ class DashboardController extends Controller
 
         $skueData = [];
         foreach ($skues as $key => $value) {
-
             $skueData[] = $key;
-
         }
 
         $data = [];
         foreach ($skueData as $sku) {
 
-            $array = [];
-            $array[] = $sku;
 
-            foreach ($headers as $header) {
+            $salesChannels = Order::query()
+                ->when($request->start_date && $request->end_date, function ($query) use ($request) {
+                    $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
+                    $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
+                })
+                ->where('sku', $sku)
+                ->selectRaw('DISTINCT(sales_channel)')
+                ->get();
 
-                $marketplace = Marketplace::query()->find($request->marketplace_id);
+            foreach ($salesChannels as $channel) {
 
-                $code = $marketplace->code == 'GB' ? 'uk' : $marketplace->code;
+                $array = [];
+                $array[] = $sku;
+                $array[] = $channel->sales_channel;
 
-                $count = Order::query()
-                    ->where('sales_channel', 'like', "%" . $code . '%')
-                    ->whereRaw('DATE(purchase_date) = ?', [$header])
-                    ->where('order_status', '!=', 'Cancelled')
-                    ->where('sku', $sku)
-                    ->selectRaw('SUM(quantity) as  total, DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
-                    ->groupByRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d")')
-                    ->first();
-                $array[] = $count->total ?? 0;
+                foreach ($headers as $header) {
+
+                    $count = Order::query()
+                        ->where('sales_channel', '=', $channel->sales_channel)
+                        ->whereRaw('DATE(purchase_date) = ?', [$header])
+                        ->where('order_status', '!=', 'Cancelled')
+                        ->where('sku', $sku)
+                        ->selectRaw('SUM(quantity) as  total, DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
+                        ->groupByRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d")')
+                        ->first();
+                    $array[] = $count->total ?? 0;
+                }
+                $data[] = $array;
 
             }
 
-            $data[] = $array;
 
         }
 
