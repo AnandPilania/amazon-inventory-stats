@@ -123,6 +123,7 @@ class DashboardController extends Controller
         }
         fclose($fp);
 
+        dd('Query optimisation');
         return response()->download(public_path('data.csv'));
     }
 
