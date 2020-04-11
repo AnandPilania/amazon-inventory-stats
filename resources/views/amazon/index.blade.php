@@ -1,16 +1,16 @@
 @extends('spark::layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <!-- Terms of Service -->
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="card card-default">
                     <div class="card-header">{{__('Orders')}}</div>
 
                     <div class="card-body terms-of-service">
                         <div class="col-md-12 mt-4">
-                            <form>
+                            <form class="form-inline">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Marketplace</label>
 
@@ -20,7 +20,6 @@
                                                 {{request('marketplace_id') == $marketplace->id ?'selected':''}} value="{{$marketplace->id}}"> {{ $marketplace->name }}</option>
                                         @endforeach
                                     </select>
-                                    <small id="emailHelp" class="form-text text-muted">Select the Marketplace.</small>
                                 </div>
 
                                 <div class="form-group">
@@ -66,21 +65,18 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-active">
                                     <tr>
-                                        <th>Sales Channel</th>
-                                        <th> SKU</th>
-                                        <th>Date</th>
-                                        <th>Sold</th>
+                                        @foreach($htmlHeaders as $header)
+                                            <th>{{$header}}</th>
+                                        @endforeach
                                     </tr>
                                     @foreach( $orders as $order)
                                         <tr>
-                                            <td>{{ $order->sales_channel }}</td>
-                                            <td> {{ $order->sku }}</td>
-                                            <td>{{ $order->purchase_date }}</td>
-                                            <td>{{ $order->sold }}</td>
+                                            @foreach($order as $line)
+                                                <td>{{ $line}}</td>
+                                            @endforeach
                                         </tr>
                                     @endforeach
                                 </table>
-                                {{ $orders->appends(request()->query())->links()}}
                             </div>
                         </div>
                     </div>
