@@ -7,5 +7,5 @@ Route::get('/marketplaces/user', 'MarketplaceController@userMarketplaces');
 Route::post('/marketplaces', 'MarketplaceController@create');
 
 Route::get('/', 'DashboardController@index');
-Route::get('/export', 'DashboardController@export')->name('amazon.export');
+Route::get('/export', 'ReportController@export')->name('amazon.export');
 
