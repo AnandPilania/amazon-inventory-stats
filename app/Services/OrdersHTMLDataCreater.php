@@ -5,13 +5,14 @@ namespace App\Services;
 
 
 use App\Order;
+use App\OrderView;
 use Illuminate\Http\Request;
 
 class OrdersHTMLDataCreater
 {
     public static function ordersData (Request $request)
     {
-        $orders = Order::query()
+        $orders = OrderView::query()
             ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku')
             ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
@@ -20,8 +21,6 @@ class OrdersHTMLDataCreater
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
-            ->groupBy('sku', 'purchase_date')
-            ->orderBy('purchase_date')
             ->get();
 
         $csvHeaders = [];
@@ -49,7 +48,7 @@ class OrdersHTMLDataCreater
         foreach ($skueData as $sku) {
 
 
-            $salesChannels = Order::query()
+            $salesChannels = OrderView::query()
                 ->when($request->start_date && $request->end_date, function ($query) use ($request) {
                     $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
                     $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
