@@ -13,18 +13,27 @@ class OrdersHTMLDataCreater
 {
     public static function ordersData (Request $request)
     {
+        if (!$request->start_date || !$request->end_date) {
+
+            $startDate = now()->subMonth()->format('Y-m-d');
+            $endDate = now()->format('Y-m-d');
+
+        } else {
+
+            $startDate = $request->start_date;
+            $endDate = $request->end_date;
+        }
         $orders = OrderStat::query()
             ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku')
-            ->when($request->start_date && $request->end_date, function ($query) use ($request) {
-                $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
-                $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereRaw('DATE(purchase_date) <= ?', [$endDate]);
+                $query->whereRaw('DATE(purchase_date) >= ?', [$startDate]);
             })
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
             ->get();
 
-        dd($orders);
         $csvHeaders = [];
         $csvHeaders = ['sku', 'sales-channel'];
         $dates = $orders->groupBy('purchase_date');
@@ -50,10 +59,10 @@ class OrdersHTMLDataCreater
         foreach ($skueData as $sku) {
 
 
-            $salesChannels = OrderView::query()
-                ->when($request->start_date && $request->end_date, function ($query) use ($request) {
-                    $query->whereRaw('DATE(purchase_date) <= ?', [$request->end_date]);
-                    $query->whereRaw('DATE(purchase_date) >= ?', [$request->start_date]);
+            $salesChannels = OrderStat::query()
+                ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereRaw('DATE(purchase_date) <= ?', [$endDate]);
+                    $query->whereRaw('DATE(purchase_date) >= ?', [$startDate]);
                 })
                 ->where('sku', $sku)
                 ->selectRaw('DISTINCT(sales_channel)')
@@ -67,15 +76,13 @@ class OrdersHTMLDataCreater
 
                 foreach ($headers as $header) {
 
-                    $count = Order::query()
+                    $count = OrderStat::query()
                         ->where('sales_channel', '=', $channel->sales_channel)
                         ->whereRaw('DATE(purchase_date) = ?', [$header])
-                        ->where('order_status', '!=', 'Cancelled')
                         ->where('sku', $sku)
-                        ->selectRaw('SUM(quantity) as  total, DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date')
-                        ->groupByRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d")')
+                        ->selectRaw('order_total')
                         ->first();
-                    $array[] = $count->total ?? 0;
+                    $array[] = $count->order_total ?? 0;
                 }
                 $data[] = $array;
 
