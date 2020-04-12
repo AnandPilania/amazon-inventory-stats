@@ -72,6 +72,9 @@ class GetReportJob implements ShouldQueue
             $this->reportRequest->status = '_DONE_';
             $this->reportRequest->mws_report_fetched_at = now();
             $this->reportRequest->update();
+
+            dispatch(new UpdateStatsTableJob());
+
         }
 
     }

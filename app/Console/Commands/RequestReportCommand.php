@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\Amazon\RequestReportJob;
+use App\Jobs\Amazon\UpdateStatsTableJob;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -40,6 +41,9 @@ class RequestReportCommand extends Command
     public function handle ()
     {
 
+        dispatch(new UpdateStatsTableJob());
+
+        dd();
         $users = User::all();
 
         $counter = 0;
