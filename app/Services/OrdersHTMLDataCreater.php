@@ -33,6 +33,7 @@ class OrdersHTMLDataCreater
                 $query->where('order_status', '=', $request->order_status);
             })
             ->groupByRaw('user_id,sku ,sales_channel,DATE(purchase_date), sku')
+            ->orderBy('purchase_date')
             ->get();
 
 
@@ -40,7 +41,23 @@ class OrdersHTMLDataCreater
         $csvHeaders = ['sku', 'sales-channel'];
         $dates = $orders->groupBy('purchase_date');
         $salesChannels = $orders->unique('sales_channel');
+//        $dates = $orders->unique('purchase_date')->pluck('purchase_date');
+        $skues = $orders->groupBy('sku');
 
+//        dd($dates);
+
+
+        $data = [];
+        foreach ($dates as $key => $date) {
+
+            foreach ($date as $item) {
+
+                $data[] = [$item->sku, $item->sales_channel];
+
+            }
+
+        }
+        dd();
         foreach ($dates as $key => $value) {
             $csvHeaders[] = $key;
         }
@@ -51,7 +68,6 @@ class OrdersHTMLDataCreater
             $headers[] = $key;
 
         }
-        $skues = $orders->groupBy('sku');
 
         $skueData = [];
         foreach ($skues as $key => $value) {
@@ -60,8 +76,6 @@ class OrdersHTMLDataCreater
 
         $data = [];
         foreach ($skueData as $sku) {
-
-
 
             foreach ($salesChannels as $channel) {
 
