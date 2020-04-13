@@ -34,7 +34,7 @@ class UpdateStatsTableJob implements ShouldQueue
     {
         $orders = Order::query()
             ->selectRaw('user_id ,DATE(purchase_date) as purchase_date, sku , sales_channel, SUM(quantity) as order_total')
-            ->groupByRaw(' user_id, purchase_date, sku, sales_channel ')
+            ->groupByRaw(' user_id, DATE(purchase_date), sku, sales_channel ')
             ->get();
 
         foreach ($orders as $order) {
