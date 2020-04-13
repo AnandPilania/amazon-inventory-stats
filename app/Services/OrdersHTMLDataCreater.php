@@ -23,8 +23,8 @@ class OrdersHTMLDataCreater
             $startDate = $request->start_date;
             $endDate = $request->end_date;
         }
-        $orders = OrderStat::query()
-            ->selectRaw('DATE_FORMAT(purchase_date, "%Y-%m-%d") as purchase_date, sku')
+        $orders = Order::query()
+            ->selectRaw('user_id,sku ,sales_channel,DATE(purchase_date) as purchase_date, sku, SUM(quantity) as order_total')
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
                 $query->whereRaw('DATE(purchase_date) <= ?', [$endDate]);
                 $query->whereRaw('DATE(purchase_date) >= ?', [$startDate]);
@@ -32,11 +32,14 @@ class OrdersHTMLDataCreater
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
+            ->groupByRaw('user_id,sku ,sales_channel,DATE(purchase_date), sku')
             ->get();
+
 
         $csvHeaders = [];
         $csvHeaders = ['sku', 'sales-channel'];
         $dates = $orders->groupBy('purchase_date');
+        $salesChannels = $orders->unique('sales_channel');
 
         foreach ($dates as $key => $value) {
             $csvHeaders[] = $key;
@@ -59,14 +62,6 @@ class OrdersHTMLDataCreater
         foreach ($skueData as $sku) {
 
 
-            $salesChannels = OrderStat::query()
-                ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereRaw('DATE(purchase_date) <= ?', [$endDate]);
-                    $query->whereRaw('DATE(purchase_date) >= ?', [$startDate]);
-                })
-                ->where('sku', $sku)
-                ->selectRaw('DISTINCT(sales_channel)')
-                ->get();
 
             foreach ($salesChannels as $channel) {
 
@@ -76,14 +71,11 @@ class OrdersHTMLDataCreater
 
                 foreach ($headers as $header) {
 
-                    $count = OrderStat::query()
+                    $count = $orders->where('sku', '=', $sku)
                         ->where('sales_channel', '=', $channel->sales_channel)
-                        ->whereRaw('DATE(purchase_date) = ?', [$header])
-                        ->where('sku', $sku)
-                        ->selectRaw('sku, SUM(order_total) as order_total')
-                        ->groupByRaw('sku')
-                        ->first();
-                    $array[] = $count->order_total ?? 0;
+                        ->where('purchase_date', '=', $header)
+                        ->sum('order_total');
+                    $array[] = $count ?? 0;
                 }
                 $data[] = $array;
 
