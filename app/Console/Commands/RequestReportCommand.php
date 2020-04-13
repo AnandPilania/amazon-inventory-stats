@@ -41,8 +41,6 @@ class RequestReportCommand extends Command
     public function handle ()
     {
 
-        dispatch(new UpdateStatsTableJob());
-        dd();
         $users = User::all();
 
         $counter = 0;
@@ -53,7 +51,7 @@ class RequestReportCommand extends Command
 
             foreach ($regions as $region) {
 
-//                $counter = $counter + 60;
+                $counter = $counter + 60;
                 dispatch(new RequestReportJob(
                     $user,
                     null,
