@@ -80,7 +80,8 @@ class OrdersHTMLDataCreater
                         ->where('sales_channel', '=', $channel->sales_channel)
                         ->whereRaw('DATE(purchase_date) = ?', [$header])
                         ->where('sku', $sku)
-                        ->selectRaw('order_total')
+                        ->selectRaw('sku, SUM(order_total) as order_total')
+                        ->groupByRaw('sku')
                         ->first();
                     $array[] = $count->order_total ?? 0;
                 }

@@ -41,6 +41,8 @@ class RequestReportCommand extends Command
     public function handle ()
     {
 
+        dispatch(new UpdateStatsTableJob());
+        dd();
         $users = User::all();
 
         $counter = 0;
