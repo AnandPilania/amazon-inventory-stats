@@ -73057,7 +73057,7 @@ Vue.component('mws-settings-form', {
         amazon_marketplace_id: this.amazon_marketplace_id,
         mws_auth_token: this.mws_auth_token
       }).then(function (response) {
-        that.marketplaces = [];
+        that.userMarketplaces = [];
         response.data.marketplaces.forEach(function (item) {
           that.userMarketplaces.push(item);
         });
