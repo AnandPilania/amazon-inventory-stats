@@ -59,6 +59,7 @@
 
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css" integrity="sha256-y/nn1YJAT/GwVsHZTooNErdWLjZvqMFJxNRLvigMD4I=" crossorigin="anonymous" />--}}
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>--}}
+{{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css" integrity="sha256-SMGbWcp5wJOVXYlZJyAXqoVWaE/vgFA5xfrH3i/jVw0=" crossorigin="anonymous" />--}}
 
 <link rel="stylesheet" type="text/css"
       href="{{asset('bootstrap-datetimepicker/css/bootstrap-datetimepicker-standalone.css')}}">
