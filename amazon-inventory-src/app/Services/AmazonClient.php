@@ -71,4 +71,9 @@ class AmazonClient
     {
         return $this->mws->GetReport($reportId);
     }
+
+    public function ListInventorySupply(array $skus)
+    {
+        return $this->mws->ListInventorySupply($skus);
+    }
 }

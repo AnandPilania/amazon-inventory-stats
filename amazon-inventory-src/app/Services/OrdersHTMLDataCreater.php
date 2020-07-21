@@ -30,6 +30,7 @@ class OrdersHTMLDataCreater
             ->when($request->order_status, function ($query) use ($request) {
                 $query->where('order_status', '=', $request->order_status);
             })
+            ->where('user_id', '=', auth()->id())
             ->groupByRaw('user_id,sku ,sales_channel,DATE(purchase_date), sku')
             ->get();
 
