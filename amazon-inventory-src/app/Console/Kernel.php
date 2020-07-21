@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('mws:report')->withoutOverlapping()->daily();
+        $schedule->command('inventory:pull')->withoutOverlapping()->daily();
     }
 
     /**
